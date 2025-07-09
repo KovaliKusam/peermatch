@@ -57,6 +57,7 @@ def find_similar_experts(input_vector):
         })
 
     # Sort the results by similarity score in descending order
+    similar = [x for x in similar if x["similarity"] >= 0.6]
     similar.sort(key=lambda x: x["similarity"], reverse=True)
     
     return similar[:5]
