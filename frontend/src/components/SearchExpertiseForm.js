@@ -1,68 +1,3 @@
-// import React, { useState } from 'react';
-// import { fetchExpertise } from '../services/api'; // Create this function to fetch expertise
-// import './ExpertiseForm.css';
-
-// const SearchExpertiseForm = () => {
-//   const [searchData, setSearchData] = useState({ name: '' });
-//   const [expertiseDetails, setExpertiseDetails] = useState(null);
-//   const [message, setMessage] = useState('');
-
-//   const handleChange = e => {
-//     setSearchData({ ...searchData, [e.target.name]: e.target.value });
-//   };
-// const handleSearch = async e => {
-//   e.preventDefault();
-//   try {
-//     const data = await fetchExpertise(searchData.name);
-//     console.log("Fetched data:", data); // Add this line to debug
-//     setExpertiseDetails(data);
-//     setMessage('');
-//   } catch (err) {
-//     console.error("Error during search:", err); // Add error logging
-//     setMessage("No expertise found for this user.");
-//     setExpertiseDetails(null);
-//   }
-// };
-// //   const handleSearch = async e => {
-// //     e.preventDefault();
-// //     try {
-// //       const data = await fetchExpertise(searchData.name);
-// //       setExpertiseDetails(data);
-// //       setMessage('');
-// //     } catch (err) {
-// //       setMessage("No expertise found for this user.");
-// //       setExpertiseDetails(null);
-// //     }
-// //   };
-
-//   return (
-//     <div>
-//       <form className="search-expertise-form" onSubmit={handleSearch}>
-//         <h2>Search Expertise</h2>
-//         <input
-//           name="name"
-//           type="text"
-//           placeholder="Enter Name"
-//           value={searchData.name}
-//           onChange={handleChange}
-//           required
-//         />
-//         <button type="submit">Search</button>
-//       </form>
-//       {message && <p className="message">{message}</p>}
-//       {expertiseDetails && (
-//         <div className="expertise-details">
-//           <h3>Expertise Details:</h3>
-//           <p><strong>Name:</strong> {expertiseDetails.name}</p>
-//           <p><strong>Email:</strong> {expertiseDetails.email}</p>
-//           <p><strong>Expertise:</strong> {expertiseDetails.expertise}</p>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default SearchExpertiseForm;
 import React, { useState } from 'react';
 import { fetchExpertise } from '../services/api'; // Ensure this is the correct import
 import './ExpertiseForm.css';
@@ -89,7 +24,7 @@ const SearchExpertiseForm = () => {
   };
 
   return (
-    <div>
+    <div className="search-expertise-container" style={{ paddingBottom: '145px' }}> {/* Corrected inline style */}
       <form className="search-expertise-form" onSubmit={handleSearch}>
         <h2>Search Expertise</h2>
         <input
@@ -116,7 +51,7 @@ const SearchExpertiseForm = () => {
           ))}
         </div>
       ) : (
-        <p>No expertise found for this user.</p>
+        <p style={{'textAlign': 'center'}}>No expertise found for this user.</p>
       )}
     </div>
   );
