@@ -6,7 +6,9 @@ const ExpertiseForm = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    expertise: ''
+    expertise: '',
+    login_time: '',
+    logout_time: ''
   });
 
   const [message, setMessage] = useState('');
@@ -17,11 +19,24 @@ const ExpertiseForm = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const data = { name: formData.name, email: formData.email, expertise: formData.expertise};
+    console.log("Form submitted!");
+    
+    // Prepare data for submission
+    const data = {
+      name: formData.name,
+      email: formData.email,
+      expertise: formData.expertise,
+      login_time: `${formData.login_time}:00`,  // Keep as HH:MM:SS format
+      logout_time: `${formData.logout_time}:00`  // Keep as HH:MM:SS format
+    };
+    console.log("Data to submit:", data);
     try {
-      await submitExpertise(data);
+      console.log("Sending request to API...");
+      const response = await submitExpertise(data);
+      console.log("Response from API:", response); // Log the response
       alert("Submitted successfully!");
     } catch (err) {
+      console.error("Error submitting expertise:", err); // Log the error
       alert("Something went wrong!");
     }
   };
@@ -29,9 +44,45 @@ const ExpertiseForm = () => {
   return (
     <form className="expertise-form" onSubmit={handleSubmit}>
       <h2>Submit Your Expertise</h2>
-      <input name="name" type="text" placeholder="Name" value={formData.name} onChange={handleChange} required />
-      <input name="email" type="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
-      <textarea name="expertise" placeholder="Your expertise..." value={formData.expertise} onChange={handleChange} required />
+      <input 
+        name="name" 
+        type="text" 
+        placeholder="Name" 
+        value={formData.name} 
+        onChange={handleChange} 
+        required 
+      />
+      <input 
+        name="email" 
+        type="email" 
+        placeholder="Email" 
+        value={formData.email} 
+        onChange={handleChange} 
+        required 
+      />
+      <textarea 
+        name="expertise" 
+        placeholder="Your expertise..." 
+        value={formData.expertise} 
+        onChange={handleChange} 
+        required 
+      />
+      <input 
+        name="login_time" 
+        type="time" 
+        placeholder="Login Time" 
+        value={formData.login_time} 
+        onChange={handleChange} 
+        required 
+      />
+      <input 
+        name="logout_time" 
+        type="time" 
+        placeholder="Logout Time" 
+        value={formData.logout_time} 
+        onChange={handleChange} 
+        required 
+      />
       <button type="submit">Submit</button>
       {message && <p className="message">{message}</p>}
     </form>
