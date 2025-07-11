@@ -116,4 +116,4 @@ def clear_user_table():
 # users = fetch_user_expertise()
 # print("User expertise:", users)
 
-# print(find_similar_experts(get_embedding('Java')))
+# print(find_similar_experts(get_embedding('React')))
