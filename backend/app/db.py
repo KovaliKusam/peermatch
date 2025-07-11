@@ -2,7 +2,8 @@ import sqlite3
 import numpy as np
 import json
 import os
-from datetime import datetime
+from datetime import datetime, time
+# from embeddings import get_embedding
 
 # Construct the path to the database in the backend folder
 db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "peermatch.db")
@@ -21,8 +22,8 @@ def create_table():
             email TEXT PRIMARY KEY,
             expertise TEXT,
             embedding TEXT,
-            login_time TEXT,
-            logout_time TEXT
+            login_time TEXT,  -- Store only time in HH:MM:SS format
+            logout_time TEXT   -- Store only time in HH:MM:SS format
         )
         """)
         conn.commit()
@@ -57,7 +58,7 @@ def find_similar_experts(input_vector):
     print("Input embedding shape:", input_embedding.shape)
 
     similar = []
-    current_time = datetime.now()  # Get the current time
+    current_time = datetime.now().time()  # Get the current time as a time object
 
     with create_connection() as conn:
         cur = conn.cursor()
@@ -76,12 +77,12 @@ def find_similar_experts(input_vector):
             # Calculate cosine similarity
             score = float(np.dot(input_embedding, embedding) / (np.linalg.norm(input_embedding) * np.linalg.norm(embedding)))
 
-            # Convert login_time and logout_time to datetime objects for comparison
-            login_time_dt = datetime.fromisoformat(login_time)
-            logout_time_dt = datetime.fromisoformat(logout_time)
+            # Convert login_time and logout_time to time objects for comparison
+            login_time_obj = datetime.strptime(login_time, "%H:%M:%S").time()
+            logout_time_obj = datetime.strptime(logout_time, "%H:%M:%S").time()
 
             # Check if current time is between login and logout times
-            if login_time_dt <= current_time <= logout_time_dt:
+            if login_time_obj <= current_time <= logout_time_obj:
                 similar.append({
                     "name": name,
                     "email": email,
@@ -112,5 +113,7 @@ def clear_user_table():
         print("All rows cleared from the users table.")
 
 # Fetch and print expertise from users
-users = fetch_user_expertise()
-print("User expertise:", users)
+# users = fetch_user_expertise()
+# print("User expertise:", users)
+
+# print(find_similar_experts(get_embedding('Java')))
