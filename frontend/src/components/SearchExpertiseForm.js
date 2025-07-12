@@ -23,6 +23,10 @@ const SearchExpertiseForm = () => {
     }
   };
 
+  const handleContactClick = (email) => {
+    window.open(`mailto:${email}`);
+  };
+
   return (
     <div className="search-expertise-container" style={{ paddingBottom: '145px' }}> {/* Corrected inline style */}
       <form className="search-expertise-form" onSubmit={handleSearch}>
@@ -47,11 +51,12 @@ const SearchExpertiseForm = () => {
               <p><strong>Email:</strong> {expert.email}</p>
               <p><strong>Expertise:</strong> {expert.expertise}</p>
               <p><strong>Similarity:</strong> {expert.similarity}</p>
+              <button onClick={() => handleContactClick(expert.email)}>Contact</button>
             </div>
           ))}
         </div>
       ) : (
-        <p style={{'textAlign': 'center'}}>No expertise found for this user.</p>
+        <p style={{ textAlign: 'center' }}>No expertise found for this user.</p>
       )}
     </div>
   );

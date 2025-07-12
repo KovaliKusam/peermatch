@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import Navbar from './Navbar';  // Assuming you have a Navbar component
-import Footer from './Footer';  // Assuming you have a Footer component
 import ExpertiseForm from './ExpertiseForm'; // Your submit form component
 import '../App.css'; // CSS for styling
 
@@ -18,7 +16,6 @@ const Submit = () => {
       <div className="form-container">
         {!formSubmitted ? (
           <>
-            <h1>Submit Your Expertise</h1>
             <ExpertiseForm onSubmit={handleFormSubmit} />
           </>
         ) : (
