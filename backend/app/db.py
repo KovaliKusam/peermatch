@@ -2,8 +2,7 @@ import sqlite3
 import numpy as np
 import json
 import os
-from datetime import datetime, time
-# from embeddings import get_embedding
+from datetime import datetime
 
 # Construct the path to the database in the backend folder
 db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "peermatch.db")
@@ -20,7 +19,10 @@ def create_table():
         CREATE TABLE IF NOT EXISTS users (
             name TEXT,
             email TEXT PRIMARY KEY,
+            password TEXT,  -- Store hashed password
             expertise TEXT,
+            current_project TEXT,  -- Store currently working project
+            current_project_embedding TEXT,  -- Store embedding of the current project
             embedding TEXT,
             login_time TEXT,  -- Store only time in HH:MM:SS format
             logout_time TEXT   -- Store only time in HH:MM:SS format
@@ -28,29 +30,43 @@ def create_table():
         """)
         conn.commit()
 
-def insert_user(name, email, expertise, embedding, login_time, logout_time):
+def insert_user(name, email, password, expertise, current_project, current_project_embedding, embedding, login_time, logout_time):
     """Insert a user into the database."""
     print('In insert user')
     
     try:
-        embedding_str = json.dumps(embedding['data'][0]['embedding'])
+        # Handle embedding for expertise
+        if embedding is not None and 'data' in embedding and len(embedding['data']) > 0:
+            embedding_str = json.dumps(embedding['data'][0]['embedding'])
+        else:
+            embedding_str = None  # Set to None if invalid
+
+        # Handle current project embedding
+        if current_project_embedding is not None and 'data' in current_project_embedding and len(current_project_embedding['data']) > 0:
+            current_project_embedding_str = json.dumps(current_project_embedding['data'][0]['embedding'])
+        else:
+            current_project_embedding_str = None  # Set to None if invalid
 
         with create_connection() as conn:
             cur = conn.cursor()
-            print("Inserting values:", name, email, expertise, login_time, logout_time)
+            print("Inserting values:", name, email, expertise, current_project, login_time, logout_time)
             cur.execute("""
-                INSERT INTO users (name, email, expertise, embedding, login_time, logout_time)
-                VALUES (?, ?, ?, ?, ?, ?)
+                INSERT INTO users (name, email, password, expertise, current_project, current_project_embedding, embedding, login_time, logout_time)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ON CONFLICT(email) DO UPDATE SET
                     name = excluded.name,
+                    password = excluded.password,
                     expertise = excluded.expertise,
+                    current_project = excluded.current_project,
+                    current_project_embedding = excluded.current_project_embedding,
                     embedding = excluded.embedding,
                     login_time = excluded.login_time,
                     logout_time = excluded.logout_time
-            """, (name, email, expertise, embedding_str, login_time, logout_time))
+            """, (name, email, password, expertise, current_project, current_project_embedding_str, embedding_str, login_time, logout_time))
             print('Insert successful!')
     except Exception as e:
         print('Error during insert:', e)
+        raise  
 
 def find_similar_experts(input_vector):
     """Find similar experts based on the input embedding vector."""
@@ -63,7 +79,7 @@ def find_similar_experts(input_vector):
     with create_connection() as conn:
         cur = conn.cursor()
         # Retrieve login_time and logout_time along with user details
-        cur.execute("SELECT name, email, expertise, embedding, login_time, logout_time FROM users")
+        cur.execute("SELECT name, email, expertise, embedding, login_time, logout_time FROM users WHERE embedding IS NOT NULL")
         results = cur.fetchall()
 
         for name, email, expertise, embedding_str, login_time, logout_time in results:
@@ -104,6 +120,14 @@ def fetch_user_expertise():
         users = cur.fetchall()
         return users
 
+def fetch_user_details():
+    """Fetch and return user details including expertise and current project."""
+    with create_connection() as conn:
+        cur = conn.cursor()
+        cur.execute("SELECT name, email, expertise, current_project, current_project_embedding, login_time, logout_time FROM users")
+        users = cur.fetchall()
+        return users
+
 def clear_user_table():
     """Clear all rows in the users table without altering its structure."""
     with create_connection() as conn:
@@ -112,8 +136,8 @@ def clear_user_table():
         conn.commit()  # Commit the changes to the database
         print("All rows cleared from the users table.")
 
-# Fetch and print expertise from users
+# Example usage
+# create_table()  # Uncomment to create the table
 # users = fetch_user_expertise()
 # print("User expertise:", users)
-
 # print(find_similar_experts(get_embedding('React')))
