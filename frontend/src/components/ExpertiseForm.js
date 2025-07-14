@@ -7,6 +7,7 @@ const ExpertiseForm = () => {
     name: '',
     email: '',
     expertise: '',
+    current_project: '', // Added this field
     login_time: '',
     logout_time: ''
   });
@@ -26,6 +27,7 @@ const ExpertiseForm = () => {
       name: formData.name,
       email: formData.email,
       expertise: formData.expertise,
+      current_project: formData.current_project, // Added this line
       login_time: `${formData.login_time}:00`,  // Keep as HH:MM:SS format
       logout_time: `${formData.logout_time}:00`  // Keep as HH:MM:SS format
     };
@@ -64,6 +66,14 @@ const ExpertiseForm = () => {
         name="expertise" 
         placeholder="Your expertise..." 
         value={formData.expertise} 
+        onChange={handleChange} 
+        required 
+      />
+      <input 
+        name="current_project" 
+        type="text" // Assuming current_project is a text field
+        placeholder="Current Project" 
+        value={formData.current_project} 
         onChange={handleChange} 
         required 
       />
