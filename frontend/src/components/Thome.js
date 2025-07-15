@@ -8,7 +8,7 @@ const Thome = () => {
   return (
     <div className="home-container">
       <section className="hero">
-        <h1>PeerCanvas</h1>
+        <h1>ColabMate</h1>
         <p>Find the right expert at the right time. Seamless, smart, and fast.</p>
         <div className="home-buttons">
           <button onClick={() => navigate('/submit')} aria-label="Submit your expertise">Submit Your Expertise</button>

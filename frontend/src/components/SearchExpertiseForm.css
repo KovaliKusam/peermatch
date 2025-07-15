@@ -25,7 +25,7 @@
 
 .expertise-form button {
   padding: 0.8rem;
-  background-color: #007bff;
+  background-color: #78BFA6;
   color: white;
   border: none;
   border-radius: 6px;
@@ -34,7 +34,7 @@
 }
 
 .expertise-form button:hover {
-  background-color: #0056b3;
+  background-color: #46715F;
 }
 
 .message {
@@ -73,7 +73,7 @@
 .search-expertise-form button {
   width: 100%;
   padding: 10px;
-  background-color: #007bff;
+  background-color: #78BFA6;
   color: white;
   border: none;
   border-radius: 4px;
@@ -82,7 +82,7 @@
 }
 
 .search-expertise-form button:hover {
-  background-color: #0056b3;
+  background-color: #46715F;
 }
 
 .message {
@@ -136,7 +136,7 @@
 
 .expertise-form button {
   padding: 0.8rem;
-  background-color: #007bff;
+  background-color: #78BFA6;
   color: white;
   border: none;
   border-radius: 6px;
@@ -145,7 +145,7 @@
 }
 
 .expertise-form button:hover {
-  background-color: #0056b3;
+  background-color: #46715F;
 }
 
 /* Message Style */
@@ -183,7 +183,7 @@
 .search-expertise-form button {
   width: 100%;
   padding: 10px;
-  background-color: #007bff;
+  background-color: #78BFA6;
   color: white;
   border: none;
   border-radius: 4px;
@@ -192,7 +192,7 @@
 }
 
 .search-expertise-form button:hover {
-  background-color: #0056b3;
+  background-color: #46715F;
 }
 
 /* Message Style for Search Expertise Form */

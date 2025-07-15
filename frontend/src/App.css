@@ -50,7 +50,7 @@
   padding: 20px;
 }
 .navbar {
-  background-color: #007bff;
+  background-color: #578A74;
   color: white;
   padding: 15px;
   display: flex;
@@ -94,7 +94,7 @@
 }
 
 .footer {
-  background-color: #333;
+  background-color: #46715F;
   color: white;
   text-align: center;
   padding: 15px;
@@ -126,5 +126,5 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+  background-color: #46715F; /* Darker blue on hover */
 }
