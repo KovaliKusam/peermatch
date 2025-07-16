@@ -3,7 +3,7 @@ import '../App.css'; // CSS for styling
 
 const Footer = () => {
   return (
-    <footer className="footer">
+    <footer className="flex justify-center p-4 bg-gray-800 text-white">
       <p>&copy; 2025 Expertise Finder. All rights reserved.</p>
     </footer>
   );
